@@ -1,0 +1,11 @@
+
+{{ heading.headname }}
+
+{% for product in products %}
+    <li>
+        {{ product.name }}
+        {{ product.description }}
+        {{ product.price }}
+    </li>
+
+{% endfor %}
