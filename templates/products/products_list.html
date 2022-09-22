@@ -11,6 +11,7 @@
         <th> Name </th>
         <th> Description </th>
         <th> Price </th>
+        <th>Options</th>
     </tr>
 
 {% for product in products %}
@@ -19,6 +20,10 @@
         <td> <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></td>
         <td>{{ product.description }}</td>
         <td>{{ product.price }}</td>
+        <td>
+            <a href="{% url 'product_update' %}">update</a>
+            <a href="{% url 'product_delete' %}">delete</a>
+        </td>
     </tr>
 
 {% endfor %}

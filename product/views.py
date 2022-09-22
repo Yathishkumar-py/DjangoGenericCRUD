@@ -115,15 +115,3 @@ class ProductCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('products_list')
-
-
-class ProductDetailView(generic.DetailView):
-    model = Products
-    template_name = 'products_detail.html'
-    context_object_name = 'product'
-    pk_url_kwarg = 'pk'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['products'] = self.model.objects.all().order_by('name')
-        return context
