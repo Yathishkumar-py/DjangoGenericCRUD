@@ -115,3 +115,18 @@ class ProductCreateView(generic.CreateView):
 
     def get_success_url(self):
         return reverse('products_list')
+
+
+class ProductUpdateView(generic.UpdateView):
+    model = Products
+
+
+class ProductDeleteView(generic.DeleteView):
+    """
+        Django generic Delete View
+    """
+    model = Products
+    template_name = 'products_delete.html'
+
+    def get_success_url(self):
+        return reverse('products_list')
