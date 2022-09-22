@@ -9,8 +9,8 @@ class ProductsListView(generic.ListView):
      --> this is enough for the view to work if template product_list.html exists
       and context will be by default product_list
 
-    template_name: user defined template_name will override the default template
-    context_object_name: used to override default context_list name
+    template_name: user defined template_name will override the default template by default modelname_list.html
+    context_object_name: used to override default modelname_list name
     ordering: used for ordering will be overridden by get_queryset()
 
     get_queryset(): function to get the queryset
@@ -19,9 +19,9 @@ class ProductsListView(generic.ListView):
 
     model = Products
     template_name = 'products_list.html'
+    context_object_name = 'products'  # by default will be products_list
     # template_name_suffix = '_list' # used to add a suffix to template
-    ordering = ['name']  # this will be overridden by get_queryset
-    context_object_name = 'products'
+    # ordering = ['name']  # this will be overridden by get_queryset
 
     def get_queryset(self):
         """
@@ -46,3 +46,15 @@ class ProductsListView(generic.ListView):
             return self.template_name.html
         """
         return self.template_name
+
+
+class ProductDetailView(generic.DetailView):
+    model = Products
+    template_name = 'products_detail.html'
+    context_object_name = 'product'
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.model.objects.all().order_by('name')
+        return context

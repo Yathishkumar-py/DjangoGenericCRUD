@@ -3,7 +3,7 @@
 
 {% for product in products %}
     <li>
-        {{ product.name }}
+        <a href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
         {{ product.description }}
         {{ product.price }}
     </li>
