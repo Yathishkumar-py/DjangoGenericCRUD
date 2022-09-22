@@ -2,7 +2,7 @@ from django.urls import reverse
 from django.views import generic
 from .models import Products
 from django import forms
-from .forms import ProductCreateForm
+from .forms import ProductCreateForm, ProductUpdateForm
 
 
 """
@@ -118,7 +118,16 @@ class ProductCreateView(generic.CreateView):
 
 
 class ProductUpdateView(generic.UpdateView):
+    """
+        Django Update view is almost same as a create view.
+    """
     model = Products
+    # fields = ['name', 'description', 'price'] # to be used if we use default form
+    form_class = ProductUpdateForm
+    template_name = 'product_update.html'
+
+    def get_success_url(self):
+        return reverse('products_list')
 
 
 class ProductDeleteView(generic.DeleteView):

@@ -9,3 +9,12 @@ class ProductCreateForm(forms.ModelForm):
         widgets = {
             'description': forms.Textarea()
         }
+
+
+class ProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Products
+        fields = ['name', 'description', 'price']
+        widgets = {
+            'description': forms.Textarea()
+        }
