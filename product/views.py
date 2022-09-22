@@ -1,5 +1,21 @@
+from django.urls import reverse
 from django.views import generic
 from .models import Products
+from django import forms
+from .forms import ProductCreateForm
+
+
+"""
+    Django Generic Views
+        1-> Display views
+            i-> Listview
+            ii-> DetailView
+        2-> Editing views
+            i-> CreateView
+            ii-> UpdateView
+            iii-> DeleteView
+            iv-> FormView
+"""
 
 
 class ProductsListView(generic.ListView):
@@ -34,7 +50,7 @@ class ProductsListView(generic.ListView):
         used to add additional data to the context object to be used in templates
         """
         context = super().get_context_data(*args, **kwargs)
-        context['heading'] = {'headname': 'heading_name'}
+        context['heading'] = {'headname': 'Shoppers'}
         return context
 
     def get_template_names(self):
@@ -46,6 +62,59 @@ class ProductsListView(generic.ListView):
             return self.template_name.html
         """
         return self.template_name
+
+
+class ProductDetailView(generic.DetailView):
+    """
+        Django generic detail view
+        path should be product/int<pk> (default) can be changed by pk_url_kwarg
+    """
+    model = Products
+    template_name = 'products_detail.html'
+    context_object_name = 'product'
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['products'] = self.model.objects.all().order_by('name')
+        return context
+
+
+class ProductCreateViewDefaultForm(generic.CreateView):
+    """
+        Django Generic Create View, it has a default form built in.
+    """
+    model = Products
+    fields = ['name', 'description', 'price']
+    template_name = 'products_create.html'
+
+    def get_form(self):
+        """
+            used to get the form details to modify the form
+        :return: form
+        """
+        form = super(ProductCreateViewDefaultForm, self).get_form()
+        form.fields['description'].widget = forms.Textarea(attrs={'class': 'product_description'})
+        return form
+
+    def get_success_url(self):
+        """
+            is called after the code runs successfully
+        :return:
+        """
+        return reverse('products_list')
+
+
+class ProductCreateView(generic.CreateView):
+    """
+        Django generic Create view using a model Form
+        form_class: the user defined form to be used, overrides the default form.
+    """
+    form_class = ProductCreateForm
+    template_name = 'products_create.html'
+
+    def get_success_url(self):
+        return reverse('products_list')
 
 
 class ProductDetailView(generic.DetailView):
