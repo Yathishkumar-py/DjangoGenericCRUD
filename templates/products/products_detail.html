@@ -6,6 +6,7 @@
         {{ product.description }}
     </p>
     <div>{{ product.price }}</div>
+    <a href="{% url 'product_delete' product.id %}"> Delete</a>
 </div>
 <hr>
 <div>
