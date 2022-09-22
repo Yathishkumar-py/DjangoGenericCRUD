@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 from .models import Products
@@ -139,3 +140,7 @@ class ProductDeleteView(generic.DeleteView):
 
     def get_success_url(self):
         return reverse('products_list')
+
+
+def home(request):
+    return render(request,'home.html')

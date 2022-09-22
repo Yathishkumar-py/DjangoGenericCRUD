@@ -6,7 +6,9 @@
         {{ product.description }}
     </p>
     <div>{{ product.price }}</div>
+    <a href="{% url 'product_update' product.id %}"> Update</a>
     <a href="{% url 'product_delete' product.id %}"> Delete</a>
+    <a href="{% url 'products_list' %}"> Go back to Products list</a>
 </div>
 <hr>
 <div>
